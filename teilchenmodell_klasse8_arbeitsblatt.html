@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teilchenmodell – Chemie Klasse 8</title>
+<style>
+:root{--navy:#173d63;--blue:#2463a6;--ink:#203044;--muted:#607286;--line:#ccd7e2;--bg:#f3f6fa;--panel:#fff;--green:#19724c;--red:#b23b36}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:var(--navy);color:white;padding:22px clamp(16px,4vw,38px)}header h1{margin:0 0 4px;font-size:clamp(1.4rem,3vw,2rem)}header p{margin:0;opacity:.92}
+main{max-width:1200px;margin:auto;padding:18px}.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:16px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 3px 12px #20304408}.panel h2{font-size:1.12rem;margin:0 0 10px}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center}
+button,select,input[type=range]{font:inherit}button,select{border:1px solid #b6c5d4;border-radius:9px;padding:8px 11px;background:white;color:var(--ink);cursor:pointer}button:hover{background:#edf4fb}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #f3b63f;outline-offset:2px}button.active,button.primary{background:var(--blue);color:white;border-color:var(--blue)}button:disabled{opacity:.45;cursor:not-allowed}
+.canvas-wrap{height:min(55vh,500px);min-height:300px;width:100%}canvas{display:block;width:100%;height:100%;border-radius:9px;touch-action:none;background:#fbfdff}
+.status{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:.93rem;margin-top:8px}
+.note{padding:10px 12px;border-left:4px solid var(--blue);background:#eef5fb;border-radius:7px;margin-top:12px}
+fieldset{border:0;margin:0;padding:0}label{font-weight:600} .field{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:9px 0}.field label{font-weight:500}
+.state-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.state-row button{padding:10px 5px}
+.meter{height:9px;background:#e6edf4;border-radius:20px;overflow:hidden}.meter>div{height:100%;background:#3c8b68;width:0;transition:width .2s}
+.task-box{padding:13px;background:#f6f9fc;border:1px solid var(--line);border-radius:10px;margin:10px 0}.task-box p{margin:6px 0}.task-box label{display:flex;gap:8px;align-items:flex-start;font-weight:400;margin:8px 0;cursor:pointer}.task-box input{margin-top:5px}
+.feedback{padding:10px;border-radius:8px;margin-top:9px;display:none}.feedback.good{display:block;background:#e8f6ee;color:#155b3b}.feedback.bad{display:block;background:#fff0ee;color:#8b2d28}
+.small{font-size:.9rem;color:var(--muted)}.separator{height:1px;background:#e4eaf0;margin:14px 0}.motion-controls{border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:12px}.motion-controls p{margin:6px 0}.pill{display:inline-block;background:#eaf1f8;border-radius:20px;padding:3px 9px;font-size:.85rem;color:#315675}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.canvas-wrap{height:48vh;min-height:280px}}@media(max-width:500px){main{padding:10px}.panel{padding:12px}.state-row{grid-template-columns:1fr}.canvas-wrap{height:42vh}}
+</style>
+</head>
+<body>
+<header><h1>Das Teilchenmodell</h1><p>Chemie · Jahrgangsstufe 8 · Interaktives Arbeitsblatt</p></header>
+<main>
+  <div class="layout">
+    <section class="panel">
+      <h2>1. Deine Zeichenfläche</h2>
+      <div class="toolbar" role="toolbar" aria-label="Zeichenwerkzeuge">
+        <button id="addMode" class="active" aria-pressed="true">＋ Teilchen setzen</button>
+        <button id="moveMode" aria-pressed="false">↔ Verschieben</button>
+        <button id="deleteMode" aria-pressed="false">− Löschen</button>
+        <button id="clearBtn">Alles löschen</button>
+      </div>
+      <div class="toolbar">
+        <label for="color">Farbe</label>
+        <select id="color"><option value="#2463a6">Blau</option><option value="#d34b43">Rot</option><option value="#26936b">Grün</option><option value="#8b55b5">Violett</option><option value="#e19a24">Orange</option></select>
+        <label for="size">Größe</label><select id="size"><option value="7">Klein</option><option value="10" selected>Mittel</option><option value="13">Groß</option></select>
+      </div>
+      <div class="canvas-wrap"><canvas id="board" aria-label="Teilchenzeichenfläche"></canvas></div>
+      <div class="status"><span id="instruction" aria-live="polite">Klicke in das Gefäß, um ein Teilchen zu setzen.</span><span>Teilchen: <strong id="count">0</strong></span></div>
+      <div class="note"><strong>Merke:</strong> Das Teilchenmodell ist eine vereinfachte Darstellung. Die Teilchen sind nicht maßstabsgetreu; zwischen ihnen befindet sich Raum.</div>
+    </section>
+
+    <aside class="panel">
+      <h2>2. Aggregatzustände</h2>
+      <p class="small">Lade ein Beispiel und untersuche die Anordnung. Du kannst es anschließend verändern.</p>
+      <div class="state-row">
+        <button id="solidBtn">Fest</button><button id="liquidBtn">Flüssig</button><button id="gasBtn">Gasförmig</button>
+      </div>
+      <div class="separator"></div>
+      <h2>3. Erwärmen und abkühlen</h2>
+      <p class="small">Starte die Bewegung und ändere die Temperatur. In diesem vereinfachten Modell bewegen sich Teilchen bei höherer Temperatur schneller.</p>
+      <div class="field"><label for="temp">Temperatur:</label><strong id="tempLabel">20 °C</strong></div>
+      <input id="temp" type="range" min="-20" max="120" value="20" step="5" style="width:100%">
+      <div class="field">
+        <button id="startMotion" class="primary">▶ Bewegung starten</button>
+        <button id="stopMotion">Ⅱ Anhalten</button>
+      </div>
+      <div class="motion-controls">
+        <p><span class="pill" id="motionLabel">Bewegung aus</span></p>
+        <p id="motionExplain" class="small">Teilchen bewegen sich noch nicht. Wähle eine Anordnung oder setze Teilchen.</p>
+        <p class="small">Hinweis: Es wird keine echte Temperatur oder Zustandsänderung berechnet. Die Bewegung dient der Veranschaulichung.</p>
+      </div>
+      <div class="separator"></div>
+      <h2>4. Arbeitsaufträge mit Selbstkontrolle</h2>
+      <div class="meter"><div id="progress"></div></div>
+      <p class="small"><span id="progressText">0 von 4 Aufgaben kontrolliert</span></p>
+      <div class="task-box" id="task1">
+        <strong>Aufgabe 1 – Fest</strong>
+        <p>Stelle einen Feststoff dar: Die Teilchen sollen dicht und regelmäßig angeordnet sein.</p>
+        <label><input type="radio" name="q1" value="a"> Weit voneinander entfernt und ungeordnet</label>
+        <label><input type="radio" name="q1" value="b"> Dicht beieinander und regelmäßig angeordnet</label>
+        <label><input type="radio" name="q1" value="c"> Nur am Boden, mit viel Abstand</label>
+        <button data-check="1">Antwort prüfen</button><div class="feedback" id="fb1"></div>
+      </div>
+      <div class="task-box" id="task2">
+        <strong>Aufgabe 2 – Flüssig</strong>
+        <p>Welche Beschreibung passt zu einer Flüssigkeit?</p>
+        <label><input type="radio" name="q2" value="a"> Teilchen dicht beieinander, aber ungeordnet</label>
+        <label><input type="radio" name="q2" value="b"> Teilchen regelmäßig auf festen Plätzen</label>
+        <label><input type="radio" name="q2" value="c"> Teilchen füllen den ganzen Raum mit großen Abständen</label>
+        <button data-check="2">Antwort prüfen</button><div class="feedback" id="fb2"></div>
+      </div>
+      <div class="task-box" id="task3">
+        <strong>Aufgabe 3 – Gasförmig</strong>
+        <p>Wie sind Gasteilchen im Modell typischerweise verteilt?</p>
+        <label><input type="radio" name="q3" value="a"> Dicht und in Reihen</label>
+        <label><input type="radio" name="q3" value="b"> Nur direkt nebeneinander</label>
+        <label><input type="radio" name="q3" value="c"> Mit großen Abständen im verfügbaren Raum</label>
+        <button data-check="3">Antwort prüfen</button><div class="feedback" id="fb3"></div>
+      </div>
+      <div class="task-box" id="task4">
+        <strong>Aufgabe 4 – Erwärmen</strong>
+        <p>Was zeigt die Simulation, wenn du die Temperatur erhöhst?</p>
+        <label><input type="radio" name="q4" value="a"> Die Teilchen bewegen sich schneller</label>
+        <label><input type="radio" name="q4" value="b"> Die Teilchen verschwinden</label>
+        <label><input type="radio" name="q4" value="c"> Die Teilchen werden automatisch schwerer</label>
+        <button data-check="4">Antwort prüfen</button><div class="feedback" id="fb4"></div>
+      </div>
+      <div class="toolbar"><button id="resetTasks">Aufgaben zurücksetzen</button></div>
+    </aside>
+  </div>
+  <p class="small" style="margin:16px 2px">Arbeitsidee: Beschreibe nach jeder Darstellung die Teilchenabstände, die Ordnung und – bei laufender Simulation – die Bewegung. Die Aufgaben prüfen das Grundverständnis; sie bewerten nicht automatisch deine eigene Zeichnung.</p>
+</main>
+<script>
+(() => {
+ const canvas=document.getElementById('board'),ctx=canvas.getContext('2d');
+ const countEl=document.getElementById('count'),instruction=document.getElementById('instruction');
+ const color=document.getElementById('color'),sizeSelect=document.getElementById('size');
+ const temp=document.getElementById('temp'),tempLabel=document.getElementById('tempLabel');
+ const motionLabel=document.getElementById('motionLabel'),motionExplain=document.getElementById('motionExplain');
+ let particles=[],mode='add',dragging=null,offset={x:0,y:0},W=800,H=450,radius=10,running=false,last=0,raf=0;
+ const completed=new Set(),answers={1:'b',2:'a',3:'c',4:'a'};
+ const toolButtons={add:document.getElementById('addMode'),move:document.getElementById('moveMode'),delete:document.getElementById('deleteMode')};
+ function setMode(m){mode=m;dragging=null;Object.entries(toolButtons).forEach(([k,b])=>{b.classList.toggle('active',k===m);b.setAttribute('aria-pressed',String(k===m));});
+  instruction.textContent={add:'Klicke in das Gefäß, um ein Teilchen zu setzen.',move:'Ziehe ein Teilchen mit der Maus oder dem Finger.',delete:'Klicke auf ein Teilchen, um es zu löschen.'}[m];
+  canvas.style.cursor=m==='move'?'grab':m==='delete'?'not-allowed':'crosshair';}
+ function resize(){const rect=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;W=Math.max(300,rect.width);H=Math.max(260,rect.height);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);draw();}
+ function draw(){
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#fbfdff';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#edf1f5';ctx.lineWidth=1;for(let x=20;x<W;x+=25){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=20;y<H;y+=25){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+  ctx.strokeStyle='#526a80';ctx.lineWidth=3;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(18,18);ctx.lineTo(18,H-18);ctx.lineTo(W-18,H-18);ctx.lineTo(W-18,18);ctx.stroke();
+  particles.forEach((p,i)=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();ctx.lineWidth=dragging===i?3:1.5;ctx.strokeStyle=dragging===i?'#172b3c':'white';ctx.stroke();ctx.beginPath();ctx.arc(p.x-p.r*.27,p.y-p.r*.27,p.r*.23,0,Math.PI*2);ctx.fillStyle='#ffffff99';ctx.fill()});
+  countEl.textContent=particles.length;
+ }
+ function pos(e){const b=canvas.getBoundingClientRect();return{x:e.clientX-b.left,y:e.clientY-b.top}}
+ function clamp(p,r=radius){return{x:Math.max(18+r,Math.min(W-18-r,p.x)),y:Math.max(18+r,Math.min(H-18-r,p.y))}}
+ function hit(pt){for(let i=particles.length-1;i>=0;i--)if(Math.hypot(pt.x-particles[i].x,pt.y-particles[i].y)<=particles[i].r+6)return i;return -1}
+ canvas.addEventListener('pointerdown',e=>{e.preventDefault();const p=pos(e),i=hit(p);
+  if(mode==='add'){const q=clamp(p,+sizeSelect.value);particles.push({x:q.x,y:q.y,color:color.value,r:+sizeSelect.value,vx:(Math.random()-.5),vy:(Math.random()-.5)});draw()}
+  else if(mode==='delete'){if(i>=0)particles.splice(i,1);draw()}
+  else if(mode==='move'&&i>=0){dragging=i;offset={x:particles[i].x-p.x,y:particles[i].y-p.y};canvas.setPointerCapture(e.pointerId);canvas.style.cursor='grabbing';draw()}
+ });
+ canvas.addEventListener('pointermove',e=>{if(mode!=='move'||dragging===null)return;const p=clamp({x:pos(e).x+offset.x,y:pos(e).y+offset.y},particles[dragging].r);particles[dragging].x=p.x;particles[dragging].y=p.y;draw()});
+ function endDrag(){if(dragging!==null){dragging=null;canvas.style.cursor='grab';draw()}}canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
+ function example(type){
+  particles=[];const left=35,right=W-35,top=35,bottom=H-35,r=+sizeSelect.value,spacing=r*2.35;
+  if(type==='solid'){for(let y=bottom-r;y>=top+r;y-=spacing)for(let x=left+r;x<=right-r;x+=spacing)particles.push({x,y,color:color.value,r,vx:0,vy:0})}
+  else if(type==='liquid'){const rows=Math.max(3,Math.floor(H*.42/spacing));for(let row=0;row<rows;row++){let x=left+r+Math.random()*4,y=bottom-r-row*spacing+(Math.random()*4-2);while(x<right-r){particles.push({x,y:y+(Math.random()*5-2.5),color:color.value,r,vx:Math.random()-.5,vy:Math.random()-.5});x+=spacing*(.85+Math.random()*.3)}}}
+  else {const n=Math.min(28,Math.max(16,Math.floor(W/28)));for(let i=0;i<n;i++)particles.push({x:left+r+Math.random()*(right-left-r*2),y:top+r+Math.random()*(bottom-top-r*2),color:color.value,r,vx:(Math.random()-.5)*2,vy:(Math.random()-.5)*2})}
+  setMode('move');draw();updateMotionText();
+ }
+ function speed(){return .25+((+temp.value+20)/140)*2.8}
+ function updateMotionText(){tempLabel.textContent=temp.value+' °C';motionLabel.textContent=running?'Bewegung läuft':'Bewegung aus';motionExplain.textContent=running?'Die Teilchen bewegen sich. Bei höherer Temperatur ist ihre Bewegung schneller.':'Teilchen bewegen sich erst, wenn du die Simulation startest.'}
+ function animate(t){if(!running)return;const dt=Math.min(2,(t-last)/16.67||1);last=t;const v=speed();
+  particles.forEach(p=>{if(p.vx===undefined)p.vx=(Math.random()-.5);if(p.vy===undefined)p.vy=(Math.random()-.5);
+   p.x+=p.vx*v*dt;p.y+=p.vy*v*dt;
+   const minX=18+p.r,maxX=W-18-p.r,minY=18+p.r,maxY=H-18-p.r;
+   if(p.x<minX){p.x=minX;p.vx=Math.abs(p.vx)}if(p.x>maxX){p.x=maxX;p.vx=-Math.abs(p.vx)}
+   if(p.y<minY){p.y=minY;p.vy=Math.abs(p.vy)}if(p.y>maxY){p.y=maxY;p.vy=-Math.abs(p.vy)}
+   // Small random changes imitate irregular motion.
+   p.vx+=((Math.random()-.5)*.06);p.vy+=((Math.random()-.5)*.06);
+   const mag=Math.hypot(p.vx,p.vy)||1;p.vx=p.vx/mag;p.vy=p.vy/mag;
+  });draw();raf=requestAnimationFrame(animate)}
+ function start(){if(running)return;running=true;last=0;updateMotionText();raf=requestAnimationFrame(animate)}
+ function stop(){running=false;cancelAnimationFrame(raf);updateMotionText();draw()}
+ toolButtons.add.addEventListener('click',()=>setMode('add'));toolButtons.move.addEventListener('click',()=>setMode('move'));toolButtons.delete.addEventListener('click',()=>setMode('delete'));
+ document.getElementById('clearBtn').addEventListener('click',()=>{particles=[];draw()});
+ document.getElementById('solidBtn').addEventListener('click',()=>example('solid'));document.getElementById('liquidBtn').addEventListener('click',()=>example('liquid'));document.getElementById('gasBtn').addEventListener('click',()=>example('gas'));
+ document.getElementById('startMotion').addEventListener('click',start);document.getElementById('stopMotion').addEventListener('click',stop);
+ temp.addEventListener('input',updateMotionText);
+ document.querySelectorAll('[data-check]').forEach(btn=>btn.addEventListener('click',()=>{
+  const n=+btn.dataset.check,selected=document.querySelector('input[name="q'+n+'"]:checked'),fb=document.getElementById('fb'+n);
+  if(!selected){fb.className='feedback bad';fb.textContent='Bitte wähle zuerst eine Antwort aus.';return}
+  const ok=selected.value===answers[n];fb.className='feedback '+(ok?'good':'bad');
+  fb.textContent=ok?({1:'Richtig! Im Feststoff liegen die Teilchen dicht und regelmäßig.',2:'Richtig! Flüssigkeitsteilchen liegen dicht beieinander, sind aber ungeordnet.',3:'Richtig! Gasteilchen haben große Abstände und verteilen sich im verfügbaren Raum.',4:'Richtig! Im Modell bewegen sich die Teilchen bei höherer Temperatur schneller.'}[n]):'Noch nicht richtig. Lies die Frage erneut und versuche es noch einmal.';
+  if(ok)completed.add(n);else completed.delete(n);updateProgress();
+ }));
+ function updateProgress(){document.getElementById('progress').style.width=(completed.size/4*100)+'%';document.getElementById('progressText').textContent=completed.size+' von 4 Aufgaben kontrolliert';}
+ document.getElementById('resetTasks').addEventListener('click',()=>{completed.clear();document.querySelectorAll('input[type=radio]').forEach(el=>el.checked=false);document.querySelectorAll('.feedback').forEach(el=>{el.className='feedback';el.textContent=''});updateProgress()});
+ if('ResizeObserver'in window)new ResizeObserver(resize).observe(canvas.parentElement);else window.addEventListener('resize',resize);
+ resize();setMode('add');updateMotionText();
+})();
+</script>
+</body>
+</html>
