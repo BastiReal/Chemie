@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bromaddition an Ethen – Chemie, 10. Klasse</title>
+  <style>
+    :root {
+      --ink: #17253b;
+      --muted: #52627a;
+      --paper: #f4f7fb;
+      --panel: #ffffff;
+      --blue: #2563eb;
+      --orange: #e68118;
+      --green: #14804a;
+      --line: #dce4ef;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    main {
+      width: min(1000px, calc(100% - 32px));
+      margin: 28px auto 48px;
+    }
+
+    header {
+      padding: 28px;
+      border-radius: 20px;
+      color: white;
+      background: linear-gradient(125deg, #173a70, #2877d4);
+      box-shadow: 0 12px 30px #18365a22;
+    }
+
+    header p { margin: 8px 0 0; color: #e7f1ff; }
+
+    .eyebrow {
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .9;
+    }
+
+    h1 { margin: 5px 0; font-size: clamp(1.7rem, 5vw, 2.5rem); }
+    h2 { margin-top: 0; font-size: 1.25rem; }
+    p { margin: 8px 0; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .card {
+      padding: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 5px 16px #18365a0b;
+    }
+
+    .visual {
+      min-height: 300px;
+      display: grid;
+      align-content: center;
+      gap: 12px;
+    }
+
+    .step-label {
+      color: var(--blue);
+      font-weight: 750;
+      font-size: .9rem;
+    }
+
+    #diagram {
+      width: 100%;
+      min-height: 170px;
+      border-radius: 12px;
+      background: #f7faff;
+    }
+
+    .caption { color: var(--muted); font-size: .92rem; }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 15px;
+      color: white;
+      background: var(--blue);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover { filter: brightness(.92); }
+    button:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+    button.secondary { color: var(--ink); background: #e8eef7; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+
+    #stepCount { color: var(--muted); font-size: .9rem; }
+
+    .equation {
+      padding: 14px;
+      border-radius: 12px;
+      background: #eef5ff;
+      text-align: center;
+      font-size: clamp(1.1rem, 3vw, 1.45rem);
+      font-weight: 750;
+      letter-spacing: .02em;
+    }
+
+    .formula-note { text-align: center; color: var(--muted); font-size: .88rem; }
+
+    .key {
+      display: inline-block;
+      padding: 2px 8px;
+      color: #8a4800;
+      background: #fff2db;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .result {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-left: 4px solid var(--green);
+      border-radius: 8px;
+      background: #eef9f2;
+    }
+
+    .safety {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border: 1px solid #f0d397;
+      border-radius: 14px;
+      background: #fff8e8;
+    }
+
+    .quiz { margin-top: 18px; }
+    .quiz-options { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 12px; }
+    .quiz-options button { color: var(--ink); background: #e8eef7; }
+    #feedback { min-height: 28px; margin-top: 10px; font-weight: 700; }
+    .good { color: var(--green); }
+    .bad { color: #b42318; }
+
+    .small { color: var(--muted); font-size: .9rem; }
+    footer { padding: 14px 4px; color: var(--muted); font-size: .85rem; }
+
+    @media (max-width: 720px) {
+      .layout { grid-template-columns: 1fr; }
+      header, .card { padding: 20px; }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .atom { transition: all .5s ease; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Chemie · Realschule Bayern · 10. Klasse</div>
+      <h1>Bromaddition an Ethen</h1>
+      <p>Wie wird aus einer Doppelbindung eine Einfachbindung – und was passiert mit dem Brom?</p>
+    </header>
+
+    <section class="layout" aria-label="Erklärung und Visualisierung">
+      <div class="card visual">
+        <div>
+          <div class="step-label" id="stepLabel">Schritt 1 von 3</div>
+          <h2 id="stepTitle">Ausgangsstoffe</h2>
+          <p id="stepText">Ethen besitzt eine Kohlenstoff-Kohlenstoff-Doppelbindung. Daneben liegt ein Brommolekül vor.</p>
+        </div>
+
+        <svg id="diagram" viewBox="0 0 620 220" role="img" aria-label="Schematische Darstellung der Bromaddition"></svg>
+
+        <div class="caption" id="diagramCaption">Die Doppelbindung ist das typische Merkmal eines Alkens.</div>
+
+        <div class="controls">
+          <button class="secondary" id="backBtn" type="button">← Zurück</button>
+          <button id="nextBtn" type="button">Weiter →</button>
+          <button class="secondary" id="resetBtn" type="button">Von vorn</button>
+          <span id="stepCount" aria-live="polite">1 / 3</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Reaktionsgleichung</h2>
+        <div class="equation" aria-label="Ethen plus Brom reagiert zu 1,2-Dibromethan">
+          CH₂=CH₂ + Br₂ → CH₂Br–CH₂Br
+        </div>
+        <div class="formula-note">Ethen + Brom → 1,2-Dibromethan</div>
+
+        <h2 style="margin-top:22px">Was geschieht?</h2>
+        <p>Die Doppelbindung enthält eine zusätzliche Bindung. Bei der Reaktion wird diese gelöst; zwischen den beiden Kohlenstoffatomen bleibt eine Einfachbindung.</p>
+        <p>Die beiden Bromatome lagern sich an die Kohlenstoffatome an. Deshalb heißt die Reaktion <span class="key">Addition</span>: Atome werden an das Molekül angelagert.</p>
+
+        <div class="result">
+          <strong>Ergebnis:</strong> Aus dem ungesättigten Alken Ethen entsteht das gesättigte Halogenalkan 1,2-Dibromethan.
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:18px">
+      <h2>Beobachtung mit Bromwasser</h2>
+      <p>Bromwasser ist orange-braun. Bei der Reaktion mit einem Alken wird Brom verbraucht – die Färbung verschwindet. Diese Entfärbung kann als Nachweis für eine Kohlenstoff-Kohlenstoff-Doppelbindung dienen.</p>
+      <p class="small">Die Farbänderung ist eine Beobachtung; sie zeigt nicht allein, welches konkrete Produkt entstanden ist.</p>
+    </section>
+
+    <section class="safety">
+      <strong>Sicherheit:</strong> Brom und Bromwasser sind gefährliche Chemikalien. Eine Durchführung gehört ausschließlich in die Hände der Lehrkraft und in einen geeigneten Abzug. Diese Seite ist eine Erklärung, keine Versuchsanleitung.
+    </section>
+
+    <section class="card quiz">
+      <h2>Kurzer Check</h2>
+      <p>Was passiert bei der Bromaddition mit der Doppelbindung?</p>
+      <div class="quiz-options">
+        <button type="button" data-answer="wrong">Sie bleibt unverändert.</button>
+        <button type="button" data-answer="right">Sie wird zur Einfachbindung.</button>
+        <button type="button" data-answer="wrong">Sie wird zu einer Dreifachbindung.</button>
+      </div>
+      <div id="feedback" aria-live="polite"></div>
+    </section>
+
+    <footer>Merksatz: Alkene reagieren mit Brom durch Addition an die Doppelbindung.</footer>
+  </main>
+
+  <script>
+    const steps = [
+      {
+        title: "Ausgangsstoffe",
+        text: "Ethen besitzt eine Kohlenstoff-Kohlenstoff-Doppelbindung. Daneben liegt ein Brommolekül vor.",
+        caption: "Die Doppelbindung ist das typische Merkmal eines Alkens."
+      },
+      {
+        title: "Die Doppelbindung öffnet sich",
+        text: "Bei der Reaktion wird die zusätzliche Bindung der C=C-Doppelbindung gelöst. Die beiden Kohlenstoffatome können nun jeweils eine neue Bindung eingehen.",
+        caption: "Schematische Darstellung: Die C=C-Doppelbindung wird zur C–C-Einfachbindung."
+      },
+      {
+        title: "Additionsprodukt",
+        text: "Je ein Bromatom bindet an jedes Kohlenstoffatom. Das Produkt heißt 1,2-Dibromethan.",
+        caption: "Beide Bromatome sind an das ehemalige Ethenmolekül angelagert."
+      }
+    ];
+
+    let current = 0;
+    const svg = document.getElementById("diagram");
+
+    function atom(x, y, label, fill, radius = 23) {
+      return `<circle class="atom" cx="${x}" cy="${y}" r="${radius}" fill="${fill}"></circle>
+        <text x="${x}" y="${y + 6}" text-anchor="middle" font-size="17" font-weight="700" fill="white">${label}</text>`;
+    }
+
+    function bond(x1, y1, x2, y2, width = 5, color = "#334155") {
+      return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="${width}" stroke-linecap="round"></line>`;
+    }
+
+    function drawDiagram(step) {
+      const carbon = "#334155";
+      const bromine = "#d97706";
+      const hydrogen = "#94a3b8";
+      let content = "";
+
+      if (step === 0) {
+        content += bond(166, 109, 235, 109, 5);
+        content += bond(166, 121, 235, 121, 5);
+        content += atom(150, 115, "C", carbon);
+        content += atom(251, 115, "C", carbon);
+        content += bond(138, 96, 116, 72, 3, hydrogen);
+        content += bond(138, 134, 116, 158, 3, hydrogen);
+        content += bond(263, 96, 285, 72, 3, hydrogen);
+        content += bond(263, 134, 285, 158, 3, hydrogen);
+        content += atom(105, 62, "H", hydrogen, 17);
+        content += atom(105, 168, "H", hydrogen, 17);
+        content += atom(296, 62, "H", hydrogen, 17);
+        content += atom(296, 168, "H", hydrogen, 17);
+        content += `<text x="355" y="120" text-anchor="middle" font-size="28" fill="#64748b">+</text>`;
+        content += bond(437, 115, 500, 115, 5, bromine);
+        content += atom(422, 115, "Br", bromine, 25);
+        content += atom(515, 115, "Br", bromine, 25);
+        content += `<text x="548" y="120" font-size="16" fill="#52627a">Br₂</text>`;
+      } else if (step === 1) {
+        content += bond(166, 115, 235, 115, 5);
+        content += atom(150, 115, "C", carbon);
+        content += atom(251, 115, "C", carbon);
+        content += bond(138, 96, 116, 72, 3, hydrogen);
+        content += bond(138, 134, 116, 158, 3, hydrogen);
+        content += bond(263, 96, 285, 72, 3, hydrogen);
+        content += bond(263, 134, 285, 158, 3, hydrogen);
+        content += atom(105, 62, "H", hydrogen, 17);
+        content += atom(105, 168, "H", hydrogen, 17);
+        content += atom(296, 62, "H", hydrogen, 17);
+        content += atom(296, 168, "H", hydrogen, 17);
+        content += `<text x="351" y="121" text-anchor="middle" font-size="28" fill="#2563eb">+</text>`;
+        content += `<text x="407" y="121" font-size="27" font-weight="700" fill="#2563eb">Br₂</text>`;
+        content += `<path d="M 474 112 C 510 80, 535 80, 560 105" fill="none" stroke="#2563eb" stroke-width="3" stroke-dasharray="7 6"></path>`;
+        content += `<polygon points="557,97 571,109 554,113" fill="#2563eb"></polygon>`;
+        content += `<text x="465" y="154" font-size="15" fill="#52627a">Addition</text>`;
+      } else {
+        content += bond(166, 115, 235, 115, 5);
+        content += atom(150, 115, "C", carbon);
+        content += atom(251, 115, "C", carbon);
+        content += bond(138, 96, 116, 72, 3, hydrogen);
+        content += bond(138, 134, 116, 158, 3, hydrogen);
+        content += bond(263, 96, 285, 72, 3, hydrogen);
+        content += bond(263, 134, 285, 158, 3, hydrogen);
+        content += atom(105, 62, "H", hydrogen, 17);
+        content += atom(105, 168, "H", hydrogen, 17);
+        content += atom(296, 62, "H", hydrogen, 17);
+        content += atom(296, 168, "H", hydrogen, 17);
+        content += bond(135, 115, 90, 115, 4, bromine);
+        content += atom(67, 115, "Br", bromine, 25);
+        content += bond(267, 115, 312, 115, 4, bromine);
+        content += atom(335, 115, "Br", bromine, 25);
+        content += `<text x="410" y="122" font-size="20" font-weight="700" fill="#14804a">1,2-Dibromethan</text>`;
+      }
+
+      svg.innerHTML = content;
+    }
+
+    function update() {
+      const data = steps[current];
+      document.getElementById("stepLabel").textContent = `Schritt ${current + 1} von ${steps.length}`;
+      document.getElementById("stepTitle").textContent = data.title;
+      document.getElementById("stepText").textContent = data.text;
+      document.getElementById("diagramCaption").textContent = data.caption;
+      document.getElementById("stepCount").textContent = `${current + 1} / ${steps.length}`;
+      document.getElementById("backBtn").disabled = current === 0;
+      document.getElementById("nextBtn").disabled = current === steps.length - 1;
+      drawDiagram(current);
+    }
+
+    document.getElementById("backBtn").addEventListener("click", () => {
+      if (current > 0) current--;
+      update();
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      if (current < steps.length - 1) current++;
+      update();
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      current = 0;
+      update();
+    });
+
+    document.querySelectorAll(".quiz-options button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const feedback = document.getElementById("feedback");
+        const correct = button.dataset.answer === "right";
+        feedback.textContent = correct
+          ? "Richtig! Die Doppelbindung wird zur Einfachbindung."
+          : "Noch nicht ganz. Denk daran: Bei der Addition werden die Atome an die Doppelbindung angelagert.";
+        feedback.className = correct ? "good" : "bad";
+      });
+    });
+
+    update();
+  </script>
+</body>
+</html>
