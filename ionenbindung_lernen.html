@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ionenbindung selbst lernen – Chemie 9</title>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--tx:#1a2230;--mu:#586377;--line:#c5cddb;--pri:#1f4fb8;--ok:#1b7f47;--bad:#bb3a2c;--e:#4a5568;--v:#e07b00;--nuc:#b23a2e;--cat:#2b6cb0;--an:#d9822b;--box:#e6edfb}
+@media(prefers-color-scheme:dark){:root{--bg:#10151c;--card:#1a212c;--tx:#e8ecf3;--mu:#9ba7bb;--line:#3a4658;--pri:#8ab0ff;--ok:#4cc27f;--bad:#ff8272;--e:#cfd6e2;--v:#ffb24d;--box:#222c40;--cat:#6aa8f0;--an:#f0a050}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.55 Georgia,"Times New Roman",serif}
+main{max-width:880px;margin:0 auto;padding:18px 14px 60px}
+h1{font:700 1.7rem/1.2 system-ui,sans-serif;margin:6px 0 4px}
+h2{font:650 1.3rem/1.3 system-ui,sans-serif;margin:0 0 10px}
+.sub{color:var(--mu);margin:0 0 14px}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+nav button,.btn{font:600 .92rem system-ui,sans-serif;padding:8px 12px;border:1.5px solid var(--line);background:var(--card);color:var(--tx);border-radius:8px;cursor:pointer}
+nav button[aria-selected=true]{background:var(--pri);border-color:var(--pri);color:var(--bg)}
+.btn.main{background:var(--pri);border-color:var(--pri);color:var(--bg)}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--v);outline-offset:2px}
+.sec{display:none;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+.sec.on{display:block}
+.merk{background:var(--box);border-left:5px solid var(--pri);padding:10px 14px;margin:14px 0;border-radius:4px}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;margin:10px 0}
+figure{margin:0;text-align:center;font:.9rem system-ui,sans-serif;color:var(--mu)}
+figure b{color:var(--tx)}
+svg .lv{stroke:var(--tx);stroke-width:1.5}svg .base{stroke:var(--tx);stroke-width:3.5}svg .ax{stroke:var(--tx);stroke-width:3.5}svg .axh{fill:var(--tx)}svg .slot{fill:none;stroke:var(--line);stroke-width:1.5;stroke-dasharray:3 2}svg .lb{fill:var(--mu);font:11px system-ui}
+svg .e{fill:#c4c9d2;stroke:var(--tx);stroke-width:1} svg .e.v{fill:var(--v)}
+input[type=range]{width:min(420px,90%)}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.opts .btn.right{border-color:var(--ok);background:var(--ok);color:#fff}
+.opts .btn.wrong{border-color:var(--bad);background:var(--bad);color:#fff}
+.fb{min-height:1.6em;font-family:system-ui,sans-serif}
+.ok{color:var(--ok)} .bad{color:var(--bad)}
+.arrow{font-size:2rem;color:var(--mu)}
+details{border:1px solid var(--line);border-radius:6px;padding:6px 12px;margin:8px 0}
+summary{cursor:pointer;font:600 .95rem system-ui,sans-serif}
+.eq{font-size:1.15rem;text-align:center;margin:6px 0}
+.q{border-top:1px solid var(--line);padding:12px 0}
+.q p{margin:0 0 6px;font-weight:600}
+select{font:1rem system-ui;padding:6px;border-radius:6px;border:1.5px solid var(--line);background:var(--card);color:var(--tx)}
+table{border-collapse:collapse;width:100%;font:.95rem system-ui}
+td,th{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+</style>
+</head>
+<body>
+<main>
+<h1>Ionenbindung – selbst erarbeiten</h1>
+<p class="sub">Chemie 9, Realschule Bayern, orientiert am LehrplanPLUS. Wir arbeiten durchgehend mit dem Energiestufenmodell.</p>
+<nav id="nav" role="tablist"></nav>
+
+<!-- 1 -->
+<section class="sec" id="s0">
+<h2>1 Das Energiestufenmodell</h2>
+<p>Im Energiestufenmodell befinden sich die Elektronen der Atomhülle auf bestimmten <b>Energiestufen</b> (1., 2., 3. …). Je höher die Energiestufe im Schema liegt, desto mehr Energie haben die Elektronen dort. Jede Energiestufe kann nur eine bestimmte Höchstzahl an Elektronen aufnehmen. Die Elektronen der äußersten Energiestufe heißen <b>Valenzelektronen</b> (orange). Gestrichelte Kreise zeigen freie Plätze.</p>
+<div class="row"><label for="zr">Ordnungszahl wählen:</label><input type="range" id="zr" min="1" max="20" value="11"></div>
+<div class="row"><div id="a0"></div><div id="i0" style="min-width:230px"></div></div>
+<div class="merk"><b>Merke:</b> Die 1. Energiestufe fasst höchstens 2, die 2. höchstens 8 Elektronen. Die 3. Energiestufe wird bei den Elementen bis Argon zunächst mit höchstens 8 Elektronen besetzt, danach beginnt die 4. Energiestufe (K, Ca). Die Periode gibt die Zahl der besetzten Energiestufen an, die Hauptgruppe die Zahl der Valenzelektronen.</div>
+<details><summary>Aufgabe: Wie viele Valenzelektronen hat Magnesium?</summary>Stelle 12 ein: Verteilung 2 | 8 | 2, also 2 Valenzelektronen (2. Hauptgruppe, 3. Periode).</details>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="s1">
+<h2>2 Edelgaszustand: Warum reagieren Atome?</h2>
+<p>Edelgase reagieren kaum, weil ihre äußerste Energiestufe voll besetzt ist. Das ist ein besonders stabiler Zustand (<b>Edelgaskonfiguration</b>).</p>
+<div class="row" id="eg"></div>
+<div class="merk"><b>Merke:</b> Atome streben die Elektronenverteilung eines Edelgases an (Helium: 2, sonst 8 Valenzelektronen, <b>Oktettregel</b>). Dafür gibt es zwei Wege: <b>Elektronen abgeben</b> (meist bei 1–3 Valenzelektronen, Metalle) oder <b>Elektronen aufnehmen</b> (meist bei 5–7 Valenzelektronen, Nichtmetalle).</div>
+<h2>Training</h2>
+<div class="row" id="tq"></div>
+<div class="opts" id="to" style="justify-content:center"></div>
+<div class="fb" id="tf"></div>
+<div class="row"><button class="btn" id="tn">Nächste Aufgabe</button><span id="ts" class="sub"></span></div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="s2">
+<h2>3 Wie entsteht eine Ionenbindung?</h2>
+<p>Wähle eine Verbindung und gehe die Schritte durch.</p>
+<div class="row"><label for="ps">Verbindung:</label><select id="ps"></select></div>
+<div class="row" id="b1"></div>
+<div class="row" id="b2"></div>
+<div class="merk" id="bt"></div>
+<div class="row"><button class="btn" id="bp">Zurück</button><button class="btn main" id="bn">Weiter</button></div>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="s3">
+<h2>4 Das Ionengitter</h2>
+<p>Ein Salzkristall besteht nicht aus einzelnen Molekülen. Sehr viele Kationen und Anionen ordnen sich regelmäßig an, jedes Ion wird von entgegengesetzt geladenen Nachbarn umgeben. Die <b>Ionenbindung</b> ist die elektrostatische Anziehung zwischen den Ionen.</p>
+<div class="row"><svg id="lat" viewBox="0 0 280 230" width="360" role="img" aria-label="Ionengitter"></svg></div>
+<div class="row"><button class="btn main" id="lb">Eine Gitterebene verschieben</button></div>
+<div class="merk" id="lt"></div>
+<div class="merk"><b>Merke:</b> Weil im Gitter nur ein Zahlenverhältnis der Ionen vorliegt, schreibt man eine <b>Verhältnisformel</b>, zum Beispiel NaCl oder MgCl<sub>2</sub>. Sie sagt nichts über „Moleküle“ aus.</div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="s4">
+<h2>5 Eigenschaften von Salzen</h2>
+<p>Alle Eigenschaften lassen sich mit dem Ionengitter erklären. Klicke auf die Frage, überlege zuerst selbst und lies dann die Erklärung.</p>
+<details><summary>Warum haben Salze hohe Schmelztemperaturen (NaCl: 801 °C)?</summary>Zwischen den Ionen wirken sehr starke Anziehungskräfte in alle Richtungen. Es braucht viel Energie, um das Gitter zu zerstören.</details>
+<details><summary>Warum sind Salzkristalle hart, aber spröde?</summary>Wird eine Ebene verschoben, stehen gleichnamig geladene Ionen nebeneinander. Sie stoßen sich ab, der Kristall splittert (siehe Abschnitt 4).</details>
+<details><summary>Warum leitet festes Salz den Strom nicht, Salzschmelze und Salzlösung aber schon?</summary>Im festen Salz sind die Ionen auf feste Plätze gebunden. In Schmelze oder Lösung sind sie frei beweglich und transportieren die Ladung. Elektronen allein bewegen sich nicht frei.</details>
+<details><summary>Warum lösen sich viele Salze in Wasser?</summary>Wassermoleküle lagern sich an die Ionen an und lösen sie aus dem Gitter heraus. (Dieses Thema wird später mit den Dipolmolekülen genauer behandelt.)</details>
+<table style="margin-top:12px"><tr><th>Eigenschaft</th><th>Salz</th></tr>
+<tr><td>Aggregatzustand bei 20 °C</td><td>fest (Kristalle)</td></tr>
+<tr><td>Schmelztemperatur</td><td>hoch</td></tr>
+<tr><td>Mechanisch</td><td>spröde</td></tr>
+<tr><td>Leitfähigkeit</td><td>nur in Schmelze und Lösung</td></tr></table>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="s5">
+<h2>6 Quiz</h2>
+<div id="qz"></div>
+<p id="qs" style="font-family:system-ui;font-weight:700"></p>
+</section>
+</main>
+
+<script>
+const S="H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca".split(" ");
+const NM="Wasserstoff,Helium,Lithium,Beryllium,Bor,Kohlenstoff,Stickstoff,Sauerstoff,Fluor,Neon,Natrium,Magnesium,Aluminium,Silicium,Phosphor,Schwefel,Chlor,Argon,Kalium,Calcium".split(",");
+const $=i=>document.getElementById(i);
+const fill=n=>{let r=[];for(const c of [2,8,8,8]){const t=Math.min(n,c);if(t<=0)break;r.push(t);n-=t}return r};
+const val=z=>{const f=fill(z);return f[f.length-1]};
+const sup=c=>c?'<sup>'+(Math.abs(c)>1?Math.abs(c):'')+(c>0?'+':'−')+'</sup>':'';
+const sub=n=>n>1?'<sub>'+n+'</sub>':'';
+const ion=(z,c)=>S[z-1]+sup(c);
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const cfg=n=>fill(n).join(' | ');
+function atom(z,c=0,w=240){
+  const f=fill(z-c),L=Math.max(3,f.length),O=[0,62,130,192],H=44+O[L-1]+16,B=H-16;
+  let h=`<svg viewBox="0 0 270 ${H}" width="${w}" role="img" aria-label="${S[z-1]}, Energiestufenschema ${cfg(z-c)}"><text class="lb" x="22" y="13">Energie</text><text class="lb" x="190" y="13">Kern: +${z}</text><line class="ax" x1="14" y1="${B}" x2="14" y2="22"/><path class="axh" d="M7 26 L14 12 L21 26Z"/>`;
+  for(let i=0;i<L;i++){const y=B-O[i];
+    h+=`<line class="${i?'lv':'base'}" x1="14" y1="${y}" x2="178" y2="${y}"/><text class="lb" x="184" y="${y-3}">${i+1}. Energiestufe</text>`;
+    if(i>=f.length)continue;
+    const cap=[2,8,8,8][i];
+    for(let k=0;k<cap;k++){const x=cap==2?62+k*62:34+k*19.5;
+      h+=k<f[i]?`<circle cx="${x}" cy="${y-9}" r="7.5" class="e${i==f.length-1?' v':''}"/>`:(i==f.length-1?`<circle cx="${x}" cy="${y-9}" r="7.5" class="slot"/>`:'')}}
+  return h+'</svg>'}
+const fig=(z,c,cap)=>`<figure>${atom(z,c)}<div>${cap}</div></figure>`;
+
+/* Tabs */
+const T=["1 Energiestufen","2 Edelgaszustand","3 Ionenbindung","4 Ionengitter","5 Eigenschaften","6 Quiz"];
+T.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.setAttribute('role','tab');b.onclick=()=>show(i);$('nav').appendChild(b)});
+function show(i){T.forEach((_,k)=>{$('s'+k).classList.toggle('on',k==i);$('nav').children[k].setAttribute('aria-selected',k==i)})}
+
+/* 1 Explorer */
+function explore(){
+  const z=+$('zr').value,f=fill(z),v=val(z);
+  $('a0').innerHTML=atom(z,0,200);
+  let t=`<b>${NM[z-1]} (${S[z-1]})</b><br>Ordnungszahl ${z}: ${z} Protonen, ${z} Elektronen<br>Verteilung: <b>${cfg(z)}</b><br>Periode ${f.length}, Valenzelektronen: ${v}<br>`;
+  t+=(v==8||z==2)?'<span class="ok">Edelgas: äußerste Energiestufe voll besetzt, sehr stabil.</span>':`<span class="mu">Es fehlen bis zur vollen äußersten Energiestufe: ${(z<=2?2:8)-v}</span>`;
+  $('i0').innerHTML=t}
+$('zr').oninput=explore;
+
+/* 2 Edelgase + Training */
+$('eg').innerHTML=[2,10,18].map(z=>fig(z,0,`<b>${NM[z-1]}</b><br>${cfg(z)}`)).join('');
+const TZ=[3,11,19,12,20,13,7,8,9,15,16,17];let tz=0,sc=0,tt=0,done=false;
+function tnew(){
+  tz=TZ[Math.random()*TZ.length|0];done=false;const v=val(tz);
+  $('tq').innerHTML=fig(tz,0,`<b>${NM[tz-1]}</b><br>${v} Valenzelektron${v>1?'en':''}`)+`<div style="max-width:300px">Wie erreicht ${NM[tz-1]} die Edelgaskonfiguration?</div>`;
+  const o=[['gibt',v],['nimmt',v],['gibt',8-v],['nimmt',8-v]];
+  const seen={},u=o.filter(x=>!seen[x]&&(seen[x]=1)).sort(()=>Math.random()-.5);
+  $('to').innerHTML='';
+  u.forEach(x=>{const b=document.createElement('button');b.className='btn';
+    b.textContent=`${x[0]=='gibt'?'gibt':'nimmt'} ${x[1]} Elektron${x[1]>1?'en':''} ${x[0]=='gibt'?'ab':'auf'}`;
+    b.onclick=()=>{if(done)return;done=true;tt++;
+      const g=v<=3,ok=(x[0]=='gibt')==g&&x[1]==(g?v:8-v),c=g?v:-(8-v);
+      if(ok){sc++;b.classList.add('right')}else b.classList.add('wrong');
+      const nb={2:'Helium',10:'Neon',18:'Argon'}[tz-c];
+      $('tf').innerHTML=`<span class="${ok?'ok':'bad'}">${ok?'Richtig!':'Leider falsch.'}</span> ${S[tz-1]} ${g?'gibt '+v+' e⁻ ab':'nimmt '+(8-v)+' e⁻ auf'} und wird zu ${ion(tz,c)} (${cfg(tz-c)}), das ist wie ${nb}. `+`<div class="row">${fig(tz,c,ion(tz,c))}</div>`;
+      $('ts').textContent=`Richtig: ${sc} von ${tt}`};
+    $('to').appendChild(b)});
+  $('tf').innerHTML=''}
+$('tn').onclick=tnew;
+
+/* 3 Ionenbindung */
+const P=[[11,17],[3,9],[12,8],[12,17],[20,17],[13,8],[19,16],[20,9]];let pi=0,st=0;
+P.forEach((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${NM[p[0]-1]} + ${NM[p[1]-1]}`;$('ps').appendChild(o)});
+$('ps').onchange=()=>{pi=+$('ps').value;st=0;build()};
+$('bn').onclick=()=>{st=Math.min(2,st+1);build()};
+$('bp').onclick=()=>{st=Math.max(0,st-1);build()};
+function build(){
+  const [m,n]=P[pi],a=val(m),w=val(n),b=8-w,g=gcd(a,b),nm=b/g,nn=a/g,total=a*nm;
+  $('b1').innerHTML=fig(m,0,`<b>${S[m-1]}</b>-Atom (Metall)<br>${cfg(m)}`)+fig(n,0,`<b>${S[n-1]}</b>-Atom (Nichtmetall)<br>${cfg(n)}`);
+  $('b2').innerHTML=st>=1?`<span class="arrow">↓ ${a} e⁻</span>`+fig(m,a,`<b>${ion(m,a)}</b> (Kation)<br>${cfg(m-a)}`)+fig(n,-b,`<b>${ion(n,-b)}</b> (Anion)<br>${cfg(n+b)}`):'';
+  const e=`${S[m-1]} → ${ion(m,a)} + ${a} e⁻ &nbsp;(Elektronenabgabe, Oxidation)<br>${S[n-1]} + ${b} e⁻ → ${ion(n,-b)} &nbsp;(Elektronenaufnahme, Reduktion)`;
+  const T=[
+   `<b>Ausgangslage:</b> ${NM[m-1]} hat ${a} Valenzelektron${a>1?'en':''}, ${NM[n-1]} hat ${w}. Keines der Atome hat eine voll besetzte äußerste Energiestufe.`,
+   `<b>Elektronenübergang:</b> ${S[m-1]} gibt ${a} e⁻ ab und erreicht die Verteilung von ${{2:'Helium',10:'Neon',18:'Argon'}[m-a]}. ${S[n-1]} nimmt ${b} e⁻ auf und erreicht die Verteilung von ${{10:'Neon',18:'Argon'}[n+b]}.<div class="eq">${e}</div>Es entstehen entgegengesetzt geladene Ionen, die sich anziehen.`,
+   `<b>Ionenbindung und Formel:</b> Abgegebene und aufgenommene Elektronen müssen gleich viele sein. Hier braucht man <b>${nm}</b> ${ion(m,a)} und <b>${nn}</b> ${ion(n,-b)}: ${nm}·${a} = ${nn}·${b} = ${total} e⁻.<div class="eq">Verhältnisformel: <b>${S[m-1]}${sub(nm)}${S[n-1]}${sub(nn)}</b></div>Insgesamt läuft eine <b>Redoxreaktion</b> mit Elektronenübergang ab. Die Ionen ziehen sich elektrostatisch an und bilden ein Ionengitter: das Salz ${NM[m-1]}${NM[n-1]=='Sauerstoff'?'oxid':NM[n-1]=='Chlor'?'chlorid':NM[n-1]=='Fluor'?'fluorid':NM[n-1]=='Schwefel'?'sulfid':''}.`];
+  $('bt').innerHTML=T[st];
+  $('bp').disabled=st==0;$('bn').disabled=st==2}
+
+/* 4 Gitter */
+let sh=false;
+function lattice(){
+  let h='';const X=c=>35+c*42,Y=r=>35+r*40;
+  for(let r=0;r<5;r++)for(let c=0;c<6;c++){
+    const p=((r+c)%2==0)^(sh&&r>=2);
+    h+=`<circle cx="${X(c)}" cy="${Y(r)}" r="${p?11:15}" fill="${p?'var(--cat)':'var(--an)'}"/><text x="${X(c)}" y="${Y(r)+5}" text-anchor="middle" fill="#fff" font-family="system-ui" font-size="15" font-weight="700">${p?'+':'−'}</text>`}
+  if(sh){for(let c=0;c<6;c++)h+=`<line x1="${X(c)}" y1="${Y(1)+14}" x2="${X(c)}" y2="${Y(2)-14}" stroke="var(--bad)" stroke-width="3" stroke-dasharray="4 3"/>`;
+    h+=`<line x1="10" y1="${(Y(1)+Y(2))/2}" x2="270" y2="${(Y(1)+Y(2))/2}" stroke="var(--bad)" stroke-width="1.5"/>`}
+  $('lat').innerHTML=h;
+  $('lb').textContent=sh?'Zurücksetzen':'Eine Gitterebene verschieben';
+  $('lt').innerHTML=sh?'<b>Abstoßung!</b> Nach der Verschiebung stehen gleichnamige Ionen direkt übereinander. Sie stoßen sich ab, der Kristall bricht entlang der Ebene. Deshalb sind Salze spröde.':'<b>Anziehung!</b> Jedes <span style="color:var(--cat)">Kation</span> ist von <span style="color:var(--an)">Anionen</span> umgeben und umgekehrt (Kationen sind kleiner als die zugehörigen Atome, Anionen größer).'}
+$('lb').onclick=()=>{sh=!sh;lattice()};
+
+/* 6 Quiz */
+const Q=[
+ ["Wie viele Elektronen passen höchstens auf die 1. und die 2. Energiestufe?",["2 und 8","8 und 8","2 und 18","8 und 18"],0,"Die 1. Energiestufe fasst 2, die 2. fasst 8 Elektronen."],
+ ["Wie sind die 11 Elektronen eines Natriumatoms auf die Energiestufen verteilt?",["2 | 8 | 1","2 | 9","8 | 3","2 | 7 | 2"],0,"2 + 8 + 1 = 11. Das einzelne Valenzelektron kann leicht abgegeben werden."],
+ ["Warum gibt ein Natriumatom ein Elektron ab?",["Es erreicht dadurch die Verteilung von Neon (2 | 8).","Es will mehr Protonen haben.","Es wird dadurch negativ.","Es wird dadurch schwerer."],0,"Nach der Abgabe ist die 2. Energiestufe die äußerste und voll besetzt."],
+ ["Welche Ladung hat ein Magnesium-Ion?",["2+","1+","2−","1−"],0,"Mg hat 2 Valenzelektronen, gibt sie ab: Mg²⁺."],
+ ["Wie viele Elektronen hat ein Chlorid-Ion Cl⁻?",["18","17","16","7"],0,"Cl hat 17 Elektronen, nimmt 1 auf: 18 (2 | 8 | 8 wie Argon)."],
+ ["Was ist eine Ionenbindung?",["Anziehung zwischen entgegengesetzt geladenen Ionen","gemeinsame Elektronen zwischen zwei Atomen","Anziehung zwischen Atomkernen","Abstoßung zwischen Elektronen"],0,"Es wirken elektrostatische Anziehungskräfte zwischen Kationen und Anionen."],
+ ["Wie lautet die Verhältnisformel von Aluminiumoxid (Al³⁺ und O²⁻)?",["Al₂O₃","AlO","Al₃O₂","AlO₃"],0,"2·3 = 3·2 = 6 Elektronen: 2 Al³⁺ und 3 O²⁻."],
+ ["Warum ist ein Salzkristall spröde?",["Verschobene Ebenen bringen gleichnamige Ionen zusammen, sie stoßen sich ab.","Die Ionen schmelzen bei Druck.","Die Elektronen fließen aus dem Kristall.","Die Atome sind sehr weich."],0,"Abstoßung gleicher Ladungen lässt den Kristall zerspringen."],
+ ["Wann leitet eine Salzportion den elektrischen Strom?",["In der Schmelze und in der Lösung","Immer","Nur als Feststoff","Nie"],0,"Nur dort sind die Ionen frei beweglich."]];
+let qs=0,qa=0;
+$('qz').innerHTML=Q.map((q,i)=>{
+  const idx=[0,1,2,3].sort(()=>Math.random()-.5);
+  return `<div class="q" id="q${i}"><p>${i+1}. ${q[0]}</p><div class="opts">${idx.map(k=>`<button class="btn" data-q="${i}" data-k="${k}">${q[1][k]}</button>`).join('')}</div><div class="fb" id="f${i}"></div></div>`}).join('');
+$('qz').onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  const i=+b.dataset.q,k=+b.dataset.k,q=Q[i],bx=$('q'+i);if(bx.dataset.d)return;bx.dataset.d=1;qa++;
+  const ok=k==q[2];if(ok)qs++;
+  b.classList.add(ok?'right':'wrong');
+  $('f'+i).innerHTML=`<span class="${ok?'ok':'bad'}">${ok?'Richtig.':'Nicht ganz.'}</span> ${q[3]}`;
+  $('qs').textContent=`Stand: ${qs} von ${qa} richtig (${Q.length} Fragen)`+(qa==Q.length?(qs>=8?' – sehr gut!':qs>=5?' – gut, wiederhole die Abschnitte zu den falschen Fragen.':' – lies Abschnitt 1 bis 3 noch einmal.'):'')};
+
+explore();tnew();build();lattice();show(0);
+</script>
+</body>
+</html>
